@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <style>
+    .messages {
+      border-right: 1px solid #ddd;
+      height: calc(100vh - 56px);
+      overflow-y: auto;
+    }
+    .posts {
+      overflow-y: auto;
+    }
+    .message, .post {
+      padding: 16px;
+      border-bottom: 1px solid #ddd;
+    }
+    .message:last-child, .post:last-child {
+      border-bottom: none;
+    }
+    .post img {
+      max-width: 100%;
+      height: auto;
+    }
+    .like-button {
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div id="dashboard"></div>
+
+  <script type="module" src="/js/dashboard.js"></script>
+</body>
+</html>
