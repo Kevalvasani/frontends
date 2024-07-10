@@ -58,7 +58,7 @@ const loadForm = (type) => {
                 <div class="row justify-content-center">
                   <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
                     <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Sign up</p>
-                    <form id="register-form" class="mx-1 mx-md-4">
+                    <form id="register-form" class="mx-1 mx-md-4" enctype="multipart/form-data">
                       <div class="d-flex flex-row align-items-center mb-4">
                         <i class="fas fa-user fa-lg me-3 fa-fw"></i>
                         <div class="form-outline flex-fill mb-0">
@@ -95,11 +95,17 @@ const loadForm = (type) => {
                           <input type="password" id="reg-password2" class="form-control" placeholder="Repeat Password"/>
                         </div>
                       </div>
+                      <div class="d-flex flex-row align-items-center mb-4">
+                        <i class="fas fa-image fa-lg me-3 fa-fw"></i>
+                        <div class="form-outline flex-fill mb-0">
+                          <input type="file" id="reg-profile-img" class="form-control" accept="image/*"/>
+                        </div>
+                      </div>
                       <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
                         <button type="submit" class="btn btn-primary btn-lg">Register</button>
                       </div>
                     </form>
-                    <p class="text-center">Don't have an account? <a href="#" id="signin-link">Sign In</a></p>
+                    <p class="text-center">Already have an account? <a href="#" id="signin-link">Sign In</a></p>
                   </div>
                   <div class="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2">
                     <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/draw1.webp" class="img-fluid" alt="Sample image">
@@ -145,9 +151,11 @@ const handleLogin = (event) => {
   })
   .then(response => response.json())
   .then(data => {
-    if (data.access) {
-      localStorage.setItem('access', data.access);
-      localStorage.setItem('refresh', data.refresh);
+    if (data.token.access) {
+      localStorage.setItem('access', data.token.access);
+      localStorage.setItem('refresh', data.token.refresh);
+      localStorage.setItem('username', data.user.username);
+      localStorage.setItem('user_id', data.user.id);
       alert('Login successful!');
       window.location.replace("/templates/dashboard.html");
     } else {
@@ -159,20 +167,27 @@ const handleLogin = (event) => {
 
 const handleRegister = (event) => {
   event.preventDefault();
-
+  
   const first_name = document.getElementById('reg-first-name').value;
   const last_name = document.getElementById('reg-last-name').value;
   const email = document.getElementById('reg-email').value;
   const username = document.getElementById('reg-username').value;
   const password = document.getElementById('reg-password').value;
   const password2 = document.getElementById('reg-password2').value;
+  const profile_img = document.getElementById('reg-profile-img').files[0];
+
+  const formData = new FormData();
+  formData.append('first_name', first_name);
+  formData.append('last_name', last_name);
+  formData.append('email', email);
+  formData.append('username', username);
+  formData.append('password', password);
+  formData.append('password2', password2);
+  formData.append('profile_img', profile_img);
 
   fetch('http://127.0.0.1:8000/register/', {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ first_name, last_name, email, username, password, password2 }),
+    body: formData,
   })
   .then(response => {
     console.log(response)
