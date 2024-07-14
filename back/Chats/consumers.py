@@ -38,10 +38,13 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
     async def verify_jwt_token(self, token):
         try:
+            print("2222222",token)
             decoded_payload = jwt.decode(
                 token, settings.SECRET_KEY, algorithms=["HS256"]
             )
+            print("33333333",decoded_payload)
             decode_access = jwt.decode(decoded_payload['access'], settings.SECRET_KEY, algorithms=['HS256'])
+            print("444444444",decode_access)
             user_id = decode_access["id"]
             user = User.objects.get(id=user_id)
             return user
@@ -67,6 +70,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 {"type": "chat.message", "message": message_serializer.data},
             )
         except Exception as e:
+            print(f"Error in receive method: {str(e)}")
             raise e
 
     @database_sync_to_async
@@ -89,4 +93,5 @@ class ChatConsumer(AsyncWebsocketConsumer):
         try:
             await self.send(text_data=json.dumps(event["message"]))
         except Exception as e:
+            print(f"Error in chat_message method: {str(e)}")
             raise e

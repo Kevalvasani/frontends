@@ -7,7 +7,7 @@ from rest_framework.response import Response
 from django.contrib.auth import authenticate
 from rest_framework.views import APIView
 from .models import  User
-from .serializers import RegisterSerializer,UserSerializer,UserLoginSerializer
+from .serializers import RegisterSerializer,UserSerializer,UserLoginSerializer,UserSearchSerializer
 import jwt
 from django.conf import settings
 from Posts.management.authentication import JWTAuthentication
@@ -107,7 +107,12 @@ class LogoutView(APIView):
         
 
 class SearchUserView(viewsets.ModelViewSet):
+    authentication_classes = [JWTAuthentication]
     queryset = User.objects.all()
-    serializer_class = UserSerializer
+    serializer_class = UserSearchSerializer
     filter_backends = [filters.SearchFilter]
     search_fields = ['username', 'first_name', 'last_name']
+    
+    def get_serializer_context(self):
+        # Pass the request context to the serializer
+        return {'request': self.request}
