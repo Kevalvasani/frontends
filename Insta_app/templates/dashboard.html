@@ -10,6 +10,23 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <style>
+
+    .chat-div {
+      display: flex;
+      border: 1px solid #ccc;
+      flex-direction: column;
+      height: 100vh;
+    }
+    #ChatMessageDiv {
+      position: relative;
+      height: 95%;
+      flex: 1; 
+      overflow-y: auto;
+      padding: 10px; 
+      border: 1px solid #ccc; 
+      background-color: #f9f9f9; 
+    }
+
     .messages {
       border-right: 2px solid #ddd;
       height: auto;
@@ -93,7 +110,9 @@
   <div id="commentModal" class="modal" style="display:none;">
     <div class="modal-content">
       <span class="close">&times;</span>
-      <div id="post-comment-div"></div>
+      <br/>
+      <div id="post-comment-div">
+      </div>
       <div>
         <input type="text" id="commentInput" placeholder="comment">
         <button id="submitComment">Submit</button>
